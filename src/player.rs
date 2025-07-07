@@ -132,14 +132,12 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
     println!("2) Stand");
     println!("3) View hand");
     println!("4) View balance");
-    println!();
-    println!("{}'s hand", player.name);
+    println!("\n{}'s hand", player.name);
     player.view_hand();
     player.view_hand_value();
 
     loop {
-        println!();
-        print!("> ");
+        print!("\n> ");
         io::stdout().flush().unwrap();
 
         let mut input = String::new();
