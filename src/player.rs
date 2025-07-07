@@ -8,11 +8,11 @@ pub struct Player {
     pub is_dealer: bool,
 }
 
-pub fn player(name: String) -> Player {
+pub fn player(name: String, balance: f64, bet: f64) -> Player {
     Player {
         name,
-        balance: 100.0,
-        bet: 0.0,
+        balance,
+        bet,
         hand: Vec::<Card>::new(),
         is_dealer: false,
     }
@@ -66,11 +66,13 @@ impl Player {
     pub fn add_balance(&mut self, amount: f64) {
         if self.is_dealer { return; };
         self.balance += amount;
+        println!("\n{} +${}", self.name, amount);
     }
 
     pub fn sub_balance(&mut self, amount: f64) {
         if self.is_dealer { return; };
         self.balance -= amount;
+        println!("\n{} -${}", self.name, amount);
     }
 
     pub fn view_balance(&self) {

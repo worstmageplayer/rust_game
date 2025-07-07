@@ -42,7 +42,7 @@ fn main() {
     println!("You bet: ${bet}");
 
     let mut players = Vec::<Player>::new();
-    let player = player(name);
+    let player = player(name, 100_000.0, bet);
     players.push(player);
 
     let mut group = create_group(players);
