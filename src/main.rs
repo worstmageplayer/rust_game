@@ -29,24 +29,41 @@ fn main() {
 
     let mut group = create_group(players);
 
-    println!("Generating deck");
+    println!("\nGenerating deck");
     let mut deck = generate_deck();
-    println!("Shuffling the deck");
-    deck.shuffle(&mut thread_rng());
 
-    for player in &mut group {
-        for _ in 0..2 {
-            player.draw_card(&mut deck);
+    loop {
+        for player in &mut group {
+            player.return_hand_to_deck(&mut deck);
         }
-    };
 
-    for player in &mut group {
-        if !player.is_dealer {
-            player_turn(player, &mut deck);
+        println!("Shuffling the deck");
+        deck.shuffle(&mut thread_rng());
+
+        for player in &mut group {
+            for _ in 0..2 {
+                player.draw_card(&mut deck);
+            }
+        };
+
+        for player in &mut group {
+            if !player.is_dealer {
+                player_turn(player, &mut deck);
+            }
+        }
+
+        dealer_turn(&mut group[0], &mut deck);
+
+        end_round(&group);
+
+        print!("\nPlay again? (y/n): ");
+        io::stdout().flush().unwrap();
+        input.clear();
+        io::stdin().read_line(&mut input).expect("Failed to read line");
+        let choice = input.trim().to_lowercase();
+
+        if choice != "y" && choice != "yes" {
+            break;
         }
     }
-
-    dealer_turn(&mut group[0], &mut deck);
-
-    end_round(group);
 }

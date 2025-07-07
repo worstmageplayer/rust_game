@@ -46,8 +46,8 @@ impl Player {
         self.hand.push(card);
     }
 
-    pub fn clear_hand(&mut self) {
-        self.hand.clear();
+    pub fn return_hand_to_deck(&mut self, deck: &mut Vec<Card>) {
+        deck.append(&mut self.hand);
     }
 
     pub fn view_hand(&self) {

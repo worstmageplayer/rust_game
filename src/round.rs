@@ -67,7 +67,7 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
     }
 }
 
-pub fn end_round(group: Vec<Player>) {
+pub fn end_round(group: &Vec<Player>) {
     if group.is_empty() {
         println!("No players in this round.");
         return;
