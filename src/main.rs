@@ -4,15 +4,13 @@ use rand::seq::SliceRandom;
 use rand::thread_rng;
 
 mod deck;
-use crate::deck::{generate_deck};
-
 mod player;
-use crate::player::{create_group, find_player_mut, player, Player};
-
 mod round;
-use crate::round::{player_turn, dealer_turn, end_round};
-
 mod input;
+
+use crate::deck::{generate_deck};
+use crate::player::{create_group, find_player_mut, player, Player};
+use crate::round::{player_turn, dealer_turn, end_round};
 use crate::input::{get_input};
 
 fn main() {
