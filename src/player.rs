@@ -57,6 +57,12 @@ impl Player {
         self.hand.push(card);
     }
 
+    pub fn draw_card(&mut self, deck: &mut Vec<Card>) {
+        if let Some(card) = deck.pop() {
+            self.hand.push(card);
+        }
+    }
+
     pub fn return_hand_to_deck(&mut self, deck: &mut Vec<Card>) {
         deck.append(&mut self.hand);
     }
@@ -72,7 +78,10 @@ impl Player {
     }
 
     pub fn modify_balance(&mut self, amount: f64) {
-        if self.is_dealer { return; };
+        if self.is_dealer {
+            println!("Error.\nmodify_balance used on dealer.");
+            return;
+        };
         self.balance += amount;
         let prefix = if amount > 0.0 {
             "+"
@@ -118,11 +127,5 @@ impl Player {
         }
 
         total
-    }
-
-    pub fn draw_card(&mut self, deck: &mut Vec<Card>) {
-        if let Some(card) = deck.pop() {
-            self.hand.push(card);
-        }
     }
 }

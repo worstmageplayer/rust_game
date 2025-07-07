@@ -4,6 +4,10 @@ use crate::deck::{Card};
 use crate::player::{Player};
 
 pub fn dealer_turn(dealer: &mut Player, deck: &mut Vec<Card>) {
+    if !dealer.is_dealer {
+        println!("Error.\nPlayer tried to access dealer_turn.");
+        return;
+    }
     while dealer.hand_value() < 17 {
         if let Some(card) = deck.pop() {
             dealer.add_card(card);
@@ -14,6 +18,10 @@ pub fn dealer_turn(dealer: &mut Player, deck: &mut Vec<Card>) {
 }
 
 pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
+    if player.is_dealer {
+        println!("Error.\nDealer tried to access player_turn.");
+        return;
+    }
     println!("\n{}'s turn — choose an action:", player.name);
     println!("1) Hit");
     println!("2) Stand");
