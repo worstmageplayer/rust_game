@@ -91,27 +91,22 @@ pub fn end_round(group: &mut [Player]) {
         player.view_hand();
 
         let result = if player_value > 21 {
-            player.sub_balance(player.bet);
-            "busts and loses"
+            (-player.bet, "busts and loses")
         } else if player_value == 21 && player.hand.len() == 2 {
-            player.add_balance(player.bet * 1.5);
-            "wins (BLACKJACK)"
+            (player.bet * 1.5, "wins (BLACKJACK)")
         } else if player.hand.len() >= 5 && player_value <= 21 {
-            player.add_balance(player.bet);
-            "wins"
+            (player.bet, "wins")
         } else if dealer_value > 21 {
-            player.add_balance(player.bet);
-            "wins (dealer busted)"
+            (player.bet, "wins")
         } else if player_value > dealer_value {
-            player.add_balance(player.bet);
-            "wins"
+            (player.bet, "wins")
         } else if player_value == dealer_value {
-            "pushes (tie)"
+            (0.0, "pushes (tie)")
         } else {
-            player.sub_balance(player.bet);
-            "loses"
+            (-player.bet, "loses")
         };
 
-        println!("=> {} {}", player.name, result);
+        println!("=> {} {}", player.name, result.1);
+        player.modify_balance(result.0);
     }
 }

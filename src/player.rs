@@ -75,6 +75,18 @@ impl Player {
         println!("\n{} -${}", self.name, amount);
     }
 
+    pub fn modify_balance(&mut self, amount: f64) {
+        if self.is_dealer { return; };
+        self.balance += amount;
+        let prefix = if amount > 0.0 {
+            "+"
+        } else {
+            "-"
+        };
+        println!("\n{} {}${}", self.name, prefix, amount);
+
+    }
+
     pub fn view_balance(&self) {
         println!("{}'s Balance: ${}", self.name, self.balance);
     }
