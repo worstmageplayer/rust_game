@@ -28,12 +28,12 @@ pub fn start_game() -> Vec<Player> {
         let player = player(player_name, 100_000.0, bet);
         players.push(player);
 
-        let create_new_player = get_input("Create new player? (y/n)\n> ");
+        let create_new_player = get_input("Add player? (y/n)\n> ");
         if create_new_player != "y" {
             break;
         }
     };
-    println!("\nAll players created:");
+    println!("\nPlayers:");
     for p in &players {
         println!("{} - Bet: ${}", p.name, p.bet);
     }
