@@ -79,7 +79,7 @@ impl Player {
         } else {
             "-"
         };
-        println!("\n{} {}${}", self.name, prefix, amount);
+        println!("\n{} {}${}", self.name, prefix, amount.abs());
 
     }
 
