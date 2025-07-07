@@ -35,6 +35,14 @@ pub fn create_group(players: Vec<Player>) -> Vec<Player> {
     group
 }
 
+pub fn find_player_mut<'a>(group: &'a mut [Player], name: &str) -> Option<&'a mut Player> {
+    group.iter_mut().find(|p| p.name == name)
+}
+
+pub fn find_player<'a>(group: &'a [Player], name: &str) -> Option<&'a Player> {
+    group.iter().find(|p| p.name == name)
+}
+
 impl Player {
     pub fn view_stats(&self) {
         println!("{}'s stats: ", self.name);
