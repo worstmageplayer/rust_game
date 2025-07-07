@@ -4,10 +4,13 @@ use rand::seq::SliceRandom;
 use rand::thread_rng;
 
 mod deck;
-use crate::deck::{Card, generate_deck};
+use crate::deck::{generate_deck};
 
 mod player;
-use crate::player::{create_group, dealer_turn, end_round, player, player_turn, Player};
+use crate::player::{create_group, player, Player};
+
+mod round;
+use crate::round::{player_turn, dealer_turn, end_round};
 
 fn main() {
     println!("Blackjack");
