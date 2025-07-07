@@ -45,9 +45,8 @@ fn main() {
         deck.shuffle(&mut thread_rng());
 
         for player in &mut group {
-            for _ in 0..2 {
-                player.draw_card(&mut deck);
-            }
+            player.draw_card(&mut deck);
+            player.draw_card(&mut deck);
         };
 
         for player in &mut group[1..] {
