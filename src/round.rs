@@ -1,5 +1,8 @@
 use std::io::{self, Write};
 
+use crate::deck::{Card};
+use crate::player::{Player};
+
 pub fn dealer_turn(dealer: &mut Player, deck: &mut Vec<Card>) {
     while dealer.hand_value() < 17 {
         if let Some(card) = deck.pop() {
