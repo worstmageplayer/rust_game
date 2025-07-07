@@ -105,7 +105,7 @@ pub fn end_round(group: &mut [Player]) {
         } else if player.hand.len() >= 5 && player_value <= 21 {
             (player.bet, "wins")
         } else if dealer_value > 21 {
-            (player.bet, "wins")
+            (player.bet, "wins (dealer busted)")
         } else if player_value > dealer_value {
             (player.bet, "wins")
         } else if player_value == dealer_value {
