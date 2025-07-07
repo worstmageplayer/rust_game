@@ -71,18 +71,6 @@ impl Player {
         println!("{}'s hand value: {}", self.name, self.hand_value());
     }
 
-    pub fn add_balance(&mut self, amount: f64) {
-        if self.is_dealer { return; };
-        self.balance += amount;
-        println!("\n{} +${}", self.name, amount);
-    }
-
-    pub fn sub_balance(&mut self, amount: f64) {
-        if self.is_dealer { return; };
-        self.balance -= amount;
-        println!("\n{} -${}", self.name, amount);
-    }
-
     pub fn modify_balance(&mut self, amount: f64) {
         if self.is_dealer { return; };
         self.balance += amount;
