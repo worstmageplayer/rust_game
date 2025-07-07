@@ -43,6 +43,12 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
                     if player.hand_value() > 21 {
                         println!("{} busted.", player.name);
                         break;
+                    } else if player.hand_value() == 21 {
+                        println!("BLACKJACK!");
+                        break;
+                    } else if player.hand.len() >= 5 && player.hand_value() <= 21 {
+                        println!("5 cards.");
+                        break;
                     }
                 } else {
                     println!("Deck is empty!");
@@ -67,7 +73,7 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
     }
 }
 
-pub fn end_round(group: &Vec<Player>) {
+pub fn end_round(group: &[Player]) {
     if group.is_empty() {
         println!("No players in this round.");
         return;
@@ -85,6 +91,8 @@ pub fn end_round(group: &Vec<Player>) {
 
         let result = if player_value > 21 {
             "busts and loses"
+        } else if player.hand.len() >= 5 && player_value <= 21 {
+            "wins"
         } else if dealer_value > 21 {
             "wins (dealer busted)"
         } else if player_value > dealer_value {

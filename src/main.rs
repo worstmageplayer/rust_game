@@ -62,7 +62,7 @@ fn main() {
         io::stdin().read_line(&mut input).expect("Failed to read line");
         let choice = input.trim().to_lowercase();
 
-        if choice != "y" && choice != "yes" {
+        if choice == "n" && choice == "no" {
             break;
         }
     }
