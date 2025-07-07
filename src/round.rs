@@ -1,7 +1,45 @@
 use std::io::{self, Write};
 
 use crate::deck::{Card};
-use crate::player::{Player};
+use crate::input::get_input;
+use crate::player::{create_group, player, Player};
+
+pub fn start_game() -> Vec<Player> {
+    println!("Blackjack");
+
+    let mut players = Vec::<Player>::new();
+
+    let mut i = 0;
+    loop {
+        i += 1;
+        println!("Player {i} -");
+
+        let player_name = get_input("Enter your name: ");
+
+        let bet: f64 = loop {
+            let bet_input = get_input("Enter bet amount: ");
+            match bet_input.parse::<f64>() {
+                Ok(b) if b > 0.0 => break b,
+                _ => println!("Invalid input. Please enter a number greater than 0."),
+            }
+        };
+        println!("You bet ${bet}");
+
+        let player = player(player_name, 100_000.0, bet);
+        players.push(player);
+
+        let create_new_player = get_input("Create new player? (y/n)\n> ");
+        if create_new_player != "y" {
+            break;
+        }
+    };
+    println!("\nAll players created:");
+    for p in &players {
+        println!("{} - Bet: ${}", p.name, p.bet);
+    }
+
+    create_group(players)
+}
 
 pub fn dealer_turn(dealer: &mut Player, deck: &mut Vec<Card>) {
     if !dealer.is_dealer {

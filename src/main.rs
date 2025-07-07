@@ -9,29 +9,12 @@ mod round;
 mod input;
 
 use crate::deck::{generate_deck};
-use crate::player::{create_group, find_player_mut, player, Player};
-use crate::round::{player_turn, dealer_turn, end_round};
+use crate::player::{find_player_mut};
+use crate::round::{dealer_turn, end_round, player_turn, start_game};
 use crate::input::{get_input};
 
 fn main() {
-    println!("Blackjack");
-
-    let name = get_input("Enter your name: ");
-
-    let bet: f64 = loop {
-        let bet_input = get_input("Enter bet amount: ");
-        match bet_input.parse::<f64>() {
-            Ok(b) if b > 0.0 => break b,
-            _ => println!("Invalid input. Please enter a number greater than 0."),
-        }
-    };
-    println!("You bet: ${bet}");
-
-    let mut players = Vec::<Player>::new();
-    let player = player(name, 100_000.0, bet);
-    players.push(player);
-
-    let mut group = create_group(players);
+    let mut group = start_game();
 
     println!("\nGenerating deck");
     let mut deck = generate_deck();
@@ -61,7 +44,7 @@ fn main() {
 
         end_round(&mut group);
 
-        let choice = get_input("\nPlay again? (y/n)\nChange bet amount (b)\n> ").to_lowercase();
+        let choice = get_input("\nPlay again? (y)\nChange bet amount (b)\n> ").to_lowercase();
 
         if choice == "n" || choice == "no" {
             break;
@@ -81,14 +64,13 @@ fn main() {
                     }
                 };
 
-                let new_bet_amount: f64 = loop {
+                player.bet = loop {
                     let bet_input = get_input("Enter new bet amount: ");
                     match bet_input.parse::<f64>() {
                         Ok(b) if b > 0.0 => break b,
                         _ => println!("Invalid input. Please enter a number greater than 0."),
                     }
                 };
-                player.bet = new_bet_amount;
                 println!("{}'s bet has been set to ${:.2}", player.name, player.bet);
                 break;
             }
