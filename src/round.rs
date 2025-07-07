@@ -12,7 +12,7 @@ pub fn start_game() -> Vec<Player> {
     let mut i = 0;
     loop {
         i += 1;
-        println!("Player {i}");
+        println!("-= Player {i} =-");
 
         let player_name = get_input("Enter your name: ");
 
