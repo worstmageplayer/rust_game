@@ -73,7 +73,7 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
     }
 }
 
-pub fn end_round(group: &[Player]) {
+pub fn end_round(group: &mut [Player]) {
     if group.is_empty() {
         println!("No players in this round.");
         return;
@@ -84,22 +84,31 @@ pub fn end_round(group: &[Player]) {
     println!("\nDealer's hand ({dealer_value}):");
     dealer.view_hand();
 
-    for player in &group[1..] {
+
+    for player in &mut group[1..] {
         let player_value = player.hand_value();
         println!("\n{}'s hand ({})", player.name, player_value);
         player.view_hand();
 
         let result = if player_value > 21 {
+            player.sub_balance(player.bet);
             "busts and loses"
+        } else if player_value == 21 && player.hand.len() == 2 {
+            player.add_balance(player.bet * 1.5);
+            "wins (BLACKJACK)"
         } else if player.hand.len() >= 5 && player_value <= 21 {
+            player.add_balance(player.bet);
             "wins"
         } else if dealer_value > 21 {
+            player.add_balance(player.bet);
             "wins (dealer busted)"
         } else if player_value > dealer_value {
+            player.add_balance(player.bet);
             "wins"
         } else if player_value == dealer_value {
             "pushes (tie)"
         } else {
+            player.sub_balance(player.bet);
             "loses"
         };
 

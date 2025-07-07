@@ -72,7 +72,7 @@ fn main() {
 
         dealer_turn(&mut group[0], &mut deck);
 
-        end_round(&group);
+        end_round(&mut group);
 
         print!("\nPlay again? (y/n): ");
         io::stdout().flush().unwrap();
