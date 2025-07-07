@@ -33,10 +33,6 @@ fn main() {
         };
 
         for player in &mut group[1..] {
-            if player.is_dealer {
-                println!("Error.\nIncorrect dealer position.");
-                return;
-            }
             player_turn(player, &mut deck);
         }
 
