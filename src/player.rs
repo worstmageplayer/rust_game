@@ -3,14 +3,16 @@ use crate::deck::{Card, Ranks};
 pub struct Player {
     pub name: String,
     pub balance: f64,
+    pub bet: f64,
     pub hand: Vec<Card>,
     pub is_dealer: bool,
 }
 
-pub fn player(name: &str) -> Player {
+pub fn player(name: String) -> Player {
     Player {
-        name: name.to_string(),
+        name,
         balance: 100.0,
+        bet: 0.0,
         hand: Vec::<Card>::new(),
         is_dealer: false,
     }
@@ -22,6 +24,7 @@ pub fn create_group(players: Vec<Player>) -> Vec<Player> {
     let dealer = Player {
         name: "dealer".to_string(),
         balance: 0.0,
+        bet: 0.0,
         hand: Vec::<Card>::new(),
         is_dealer: true,
     };
