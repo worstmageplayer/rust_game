@@ -5,14 +5,14 @@ use crate::input::get_input;
 use crate::player::{create_group, player, Player};
 
 pub fn start_game() -> Vec<Player> {
-    println!("Blackjack");
+    println!("Blackjack\n");
 
     let mut players = Vec::<Player>::new();
 
     let mut i = 0;
     loop {
         i += 1;
-        println!("Player {i} -");
+        println!("Player {i}");
 
         let player_name = get_input("Enter your name: ");
 
