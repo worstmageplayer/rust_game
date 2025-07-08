@@ -12,6 +12,11 @@ pub fn start_game() -> Vec<Player> {
     let mut i = 0;
     loop {
         i += 1;
+        if i > 5 {
+            println!("Maximum of five players allowed.");
+            break;
+        };
+
         println!("-= Player {i} =-");
 
         let player_name = get_input("Enter your name: ");
@@ -47,11 +52,9 @@ pub fn dealer_turn(dealer: &mut Player, deck: &mut Vec<Card>) {
         return;
     }
     while dealer.hand_value() < 17 {
-        if let Some(card) = deck.pop() {
-            dealer.add_card(card);
-        } else {
+        if dealer.draw_card(deck).is_err() {
             break;
-        }
+        };
     }
 }
 
@@ -81,23 +84,22 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
 
         match input.trim() {
             "1" | "hit" | "h" => {
-                if let Some(card) = deck.pop() {
-                    println!("You drew: {card}");
-                    player.add_card(card);
-                    player.view_hand_value();
+                if player.draw_card(deck).is_err() {
+                    println!("Deck is empty!");
+                } else {
+                    println!("{} drew {}", player.name, player.hand.last().unwrap());
+                    let value = player.view_hand_value();
 
-                    if player.hand_value() > 21 {
+                    if value > 21 {
                         println!("{} busted.", player.name);
                         break;
-                    } else if player.hand_value() == 21 {
+                    } else if value == 21 {
                         println!("BLACKJACK!");
                         break;
-                    } else if player.hand.len() >= 5 && player.hand_value() <= 21 {
+                    } else if player.hand.len() >= 5 && value <= 21 {
                         println!("5 cards.");
                         break;
                     }
-                } else {
-                    println!("Deck is empty!");
                 }
             }
             "2" | "stand" | "s" => {
@@ -109,7 +111,7 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
                 player.view_hand();
                 player.view_hand_value();
             }
-            "4" | "balance" => {
+            "4" | "balance" | "b" => {
                 println!("Your balance: ${}", player.balance);
             }
             _ => {

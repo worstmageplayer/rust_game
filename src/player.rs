@@ -57,9 +57,12 @@ impl Player {
         self.hand.push(card);
     }
 
-    pub fn draw_card(&mut self, deck: &mut Vec<Card>) {
+    pub fn draw_card(&mut self, deck: &mut Vec<Card>) -> Result<(), String> {
         if let Some(card) = deck.pop() {
             self.hand.push(card);
+            Ok(())
+        } else {
+            Err("Not enough cards in the deck".to_string())
         }
     }
 
@@ -73,8 +76,9 @@ impl Player {
         };
     }
 
-    pub fn view_hand_value(&self) {
+    pub fn view_hand_value(&self) -> u64 {
         println!("{}'s hand value: {}", self.name, self.hand_value());
+        self.hand_value()
     }
 
     pub fn modify_balance(&mut self, amount: f64) {

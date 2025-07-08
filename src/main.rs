@@ -28,8 +28,10 @@ fn main() {
         deck.shuffle(&mut thread_rng());
 
         for player in &mut group {
-            player.draw_card(&mut deck);
-            player.draw_card(&mut deck);
+            if let Err(e) = player.draw_card(&mut deck) {
+                println!("Error: {e}");
+                return;
+            }
         };
 
         for player in &mut group[1..] {
