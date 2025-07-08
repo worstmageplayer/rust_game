@@ -53,10 +53,6 @@ impl Player {
         self.view_balance();
     }
 
-    pub fn add_card(&mut self, card: Card) {
-        self.hand.push(card);
-    }
-
     pub fn draw_card(&mut self, deck: &mut Vec<Card>) -> Result<(), String> {
         if let Some(card) = deck.pop() {
             self.hand.push(card);
