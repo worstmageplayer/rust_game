@@ -66,9 +66,10 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
     println!("\n{}'s turn — choose an action:", player.name);
     println!("1) Hit");
     println!("2) Double Down");
-    println!("3) Stand");
-    println!("4) View hand");
-    println!("5) View balance");
+    println!("3) Split");
+    println!("4) Stand");
+    println!("5) View hand");
+    println!("6) View balance");
     println!("\n{}'s hand", player.name);
     player.view_hand();
 
@@ -99,7 +100,7 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
                         println!("{} busted.", player.name);
                         break;
                     } else if value == 21 {
-                        println!("BLACKJACK!");
+                        println!("21");
                         break;
                     } else if player.hand.len() >= 5 && value <= 21 {
                         println!("5 cards.");
@@ -124,7 +125,7 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
                 }
             }
             "3" | "split" | "sp" => {
-                if !player.hand.len() != 2 {
+                if player.hand.len() != 2 {
                     println!("Split not allowed.\nYou need two card.");
                     continue;
                 }
@@ -138,6 +139,7 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
                 }
 
                 println!("{} splits.", player.name);
+                println!("Split is unfinished.\nSelect another option.");
             }
             "4" | "stand" | "s" => {
                 println!("{} stands.", player.name);
