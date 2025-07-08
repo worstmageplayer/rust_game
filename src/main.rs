@@ -32,6 +32,10 @@ fn main() {
                 println!("Error: {e}");
                 return;
             }
+            if let Err(e) = player.draw_card(&mut deck) {
+                println!("Error: {e}");
+                return;
+            }
         };
 
         for player in &mut group[1..] {
