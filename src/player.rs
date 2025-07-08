@@ -73,8 +73,9 @@ impl Player {
     }
 
     pub fn view_hand_value(&self) -> u64 {
-        println!("{}'s hand value: {}", self.name, self.hand_value());
-        self.hand_value()
+        let value = self.hand_value();
+        println!("{}'s hand value: {}", self.name, value);
+        value
     }
 
     pub fn modify_balance(&mut self, amount: f64) {
