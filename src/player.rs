@@ -78,6 +78,10 @@ impl Player {
         value
     }
 
+    pub fn view_balance(&self) {
+        println!("{}'s Balance: ${}", self.name, self.balance);
+    }
+
     pub fn modify_balance(&mut self, amount: f64) {
         if self.is_dealer {
             println!("Error.\nmodify_balance used on dealer.");
@@ -91,10 +95,6 @@ impl Player {
         };
         println!("\n{} {}${}", self.name, prefix, amount.abs());
 
-    }
-
-    pub fn view_balance(&self) {
-        println!("{}'s Balance: ${}", self.name, self.balance);
     }
 
     pub fn hand_value(&self) -> u64 {
