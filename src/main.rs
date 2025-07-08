@@ -60,7 +60,7 @@ fn main() {
                         continue;
                     },
                     Some(p) => p,
-                    None => {
+                    _ => {
                         println!("Player '{name}' not found.");
                         continue;
                     }
