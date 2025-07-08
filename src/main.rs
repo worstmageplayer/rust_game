@@ -38,6 +38,19 @@ fn main() {
             }
         };
 
+        let dealer = &group[0];
+        if !dealer.is_dealer {
+            println!("Error: First player is not dealer");
+            return;
+        };
+
+        if let Some(card) = dealer.hand.first() {
+            println!("\nDealer shows {card}");
+        } else {
+            println!("Error: Dealer has no cards");
+            return;
+        }
+
         for player in &mut group[1..] {
             player_turn(player, &mut deck);
         }
