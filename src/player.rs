@@ -4,6 +4,7 @@ pub struct Player {
     pub name: String,
     pub balance: f64,
     pub bet: f64,
+    pub bet_multiplier: f64,
     pub hand: Vec<Card>,
     pub is_dealer: bool,
 }
@@ -13,6 +14,7 @@ pub fn player(name: String, balance: f64, bet: f64) -> Player {
         name,
         balance,
         bet,
+        bet_multiplier: 1.0,
         hand: Vec::<Card>::new(),
         is_dealer: false,
     }
@@ -25,6 +27,7 @@ pub fn create_group(players: Vec<Player>) -> Vec<Player> {
         name: "dealer".to_string(),
         balance: 0.0,
         bet: 0.0,
+        bet_multiplier: 0.0,
         hand: Vec::<Card>::new(),
         is_dealer: true,
     };

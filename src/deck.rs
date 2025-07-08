@@ -20,7 +20,7 @@ impl fmt::Display for Suits {
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(PartialEq, Clone, Copy)]
 pub enum Ranks {
     Ace,
     Two,

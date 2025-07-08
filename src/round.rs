@@ -65,12 +65,17 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
     }
     println!("\n{}'s turn — choose an action:", player.name);
     println!("1) Hit");
-    println!("2) Stand");
-    println!("3) View hand");
-    println!("4) View balance");
+    println!("2) Double Down");
+    println!("3) Stand");
+    println!("4) View hand");
+    println!("5) View balance");
     println!("\n{}'s hand", player.name);
     player.view_hand();
-    player.view_hand_value();
+
+    if player.view_hand_value() == 21 {
+        println!("BLACKJACK! (1.5x)");
+        return;
+    }
 
     loop {
         print!("\n> ");
@@ -102,16 +107,48 @@ pub fn player_turn(player: &mut Player, deck: &mut Vec<Card>) {
                     }
                 }
             }
-            "2" | "stand" | "s" => {
+            "2" | "double down" | "dd" => {
+                if !player.hand.len() == 2 {
+                    println!("Double down not allowed.");
+                    continue;
+                }
+                println!("{} double downs.", player.name);
+
+                if player.draw_card(deck).is_err() {
+                    println!("Deck is empty!");
+                } else {
+                    println!("{} drew {}", player.name, player.hand.last().unwrap());
+                    player.view_hand_value();
+                    player.bet_multiplier = 2.0;
+                    break;
+                }
+            }
+            "3" | "split" | "sp" => {
+                if !player.hand.len() != 2 {
+                    println!("Split not allowed.\nYou need two card.");
+                    continue;
+                }
+
+                let first_card = player.hand.first().unwrap().rank;
+                let second_card = player.hand.last().unwrap().rank;
+
+                if first_card != second_card {
+                    println!("Split not allowed.\nCards are not the same rank.");
+                    continue;
+                }
+
+                println!("{} splits.", player.name);
+            }
+            "4" | "stand" | "s" => {
                 println!("{} stands.", player.name);
                 break;
             }
-            "3" | "hand" => {
+            "5" | "hand" => {
                 println!("{}'s hand", player.name);
                 player.view_hand();
                 player.view_hand_value();
             }
-            "4" | "balance" | "b" => {
+            "6" | "balance" | "b" => {
                 println!("Your balance: ${}", player.balance);
             }
             _ => {
@@ -139,22 +176,29 @@ pub fn end_round(group: &mut [Player]) {
         player.view_hand();
 
         let result = if player_value > 21 {
-            (-player.bet, "busts and loses")
+            player.bet_multiplier = -player.bet_multiplier;
+            "busts and loses"
         } else if player_value == 21 && player.hand.len() == 2 {
-            (player.bet * 1.5, "wins (BLACKJACK)")
+            player.bet_multiplier = 1.5;
+            "wins (BLACKJACK)"
         } else if player.hand.len() >= 5 && player_value <= 21 {
-            (player.bet, "wins")
+            "wins"
         } else if dealer_value > 21 {
-            (player.bet, "wins (dealer busted)")
+            "wins (dealer busted)"
         } else if player_value > dealer_value {
-            (player.bet, "wins")
+            "wins"
         } else if player_value == dealer_value {
-            (0.0, "pushes (tie)")
+            player.bet_multiplier = 0.0;
+            "pushes (tie)"
         } else {
-            (-player.bet, "loses")
+            player.bet_multiplier = -player.bet_multiplier;
+            "loses"
         };
 
-        println!("=> {} {}", player.name, result.1);
-        player.modify_balance(result.0);
+        println!("=> {} {}", player.name, result);
+
+        let player_bet = player.bet * player.bet_multiplier;
+        player.modify_balance(player_bet);
+        player.bet_multiplier = 1.0;
     }
 }
